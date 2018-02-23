@@ -1,0 +1,16 @@
+Differences between overview document and our project:
+
+- Whereas the overview estimates only roll, pitch, and yaw offsets, we are also measuring all three translational offsets between the camera and body-fixed UAV frames.
+
+- Instead of an ArUco marker, we are using an CharUco marker, which is a checkerboard + ArUco marker map. We get better corner detection of the marker that way, resulting in more accurate camera-marker relative estimates.
+
+- The measurement model in the overview deals only with rotation matrices, since it is only calculating rotational offsets. Our project will incorporate translational offsets as well, so we will be using homogeneous transforms instead of rotation matrices.
+
+- Instead of performing a batch optimization, we will be using a MHE to dynamically estimate all six biases while flying in simulation
+
+- Unlike the overview, our project will involve an element of control implementation. The control will aim to fly the copter on the optimal flight path trajectory for quick calibration. This is where we will probably need to put the most thought. An idea could be, perhaps, controlling our trajectory based on the speed at which certain estimated biases are converging. But, yeah, this part is still very open to suggestion.
+
+- Two other things to think about:
+1. How necessary is it for our camera images to be synced with IMU data? Can we model it such that we can take into account slight time differences between image capture data and IMU data?
+
+2. For this project, we will assume that we are starting out on a tag which is flat on the ground, and that the IMU is calibrated level to the surface of the earth. It might be interesting to come up with a more robust solution where the copter can start off on a tag which is not quite level, calibrating its IMU on that unlevel surface.
